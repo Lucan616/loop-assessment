@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { ThemeProvider } from "@mui/material/styles";
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import theme from "@/theme";
+import AppLayout from "@/components/layout";
 // import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,9 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <InitColorSchemeScript />
         <CssBaseline enableColorScheme />
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <CssVarsProvider theme={theme}>
+            <AppLayout>{children}</AppLayout>
+          </CssVarsProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
