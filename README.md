@@ -1,8 +1,18 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+A live version can be viewed at [deeztunes.vercel.app](https://deeztunes.vercel.app) or [loop-assessment.vercel.app](https://loop-assessment.vercel.app).
+
 ## Getting Started
 
-First, run the development server:
+Make sure you have the latest version of Node.js installed, which should also come with NPM.
+
+Then first install all the dependencies by running:
+
+```bash
+npm install
+```
+
+You can now run the development server with:
 
 ```bash
 npm run dev
