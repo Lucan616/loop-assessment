@@ -152,9 +152,14 @@ export default async function ArtistPage({ params }: { params: { id: string } })
             gap: 2.5,
           }}
         >
-          {albums.map((album) => (
-            <AlbumCard key={album.id} album={album} />
-          ))}
+          {albums
+            .sort(
+              (a, b) =>
+                new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+            )
+            .map((album) => (
+              <AlbumCard key={album.id} album={album} />
+            ))}
         </Box>
       </Box>
     </Container>
