@@ -1,26 +1,10 @@
-"use client";
-
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  AppBar,
-  Box,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Divider, Drawer, Toolbar, Typography } from "@mui/material";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import AlbumIcon from "@mui/icons-material/Album";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import LoopLogo from "@/app/loop-logo.svg";
+import Nav from "@/components/nav";
 
 const DRAWER_WIDTH = 240;
 
@@ -45,8 +29,6 @@ const DRAWER_ITEMS = {
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -81,43 +63,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             boxSizing: "border-box",
             display: "grid",
             gridTemplateRows: "auto 1fr auto",
-            // paddingBottom: 4,
           },
         }}
       >
         <Toolbar variant="dense" />
         <Box sx={{ overflow: "auto" }}>
-          <List component="nav" subheader={<li />} sx={{ "& ul": { padding: 0, px: 1 } }}>
-            {Object.entries(DRAWER_ITEMS).map(([label, items]) => (
-              <li key={`section-${label}`}>
-                <ul>
-                  <ListSubheader sx={{ color: "InfoText", fontSize: "1.2rem" }}>
-                    {label}
-                  </ListSubheader>
-                  {items.map((item) => (
-                    <ListItem key={`item-${label}-${item.label}`} sx={{ py: 0.25 }}>
-                      <ListItemButton
-                        LinkComponent={Link}
-                        href={item.href}
-                        selected={
-                          item.href !== "/"
-                            ? pathname === item.href
-                            : pathname === item.href || pathname.startsWith("/artist")
-                        }
-                        dense
-                        sx={{ mx: -2, borderRadius: 2 }}
-                      >
-                        <ListItemIcon sx={{ minWidth: 40 }}>
-                          <item.icon />
-                        </ListItemIcon>
-                        <ListItemText primary={item.label} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </List>
+          <Nav links={DRAWER_ITEMS} />
         </Box>
         <Box
           sx={{

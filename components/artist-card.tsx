@@ -4,13 +4,16 @@ import { Box, Paper, Tooltip, Typography } from "@mui/material";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import { Artist } from "@/lib/definitions";
 
-export default function ArtistCard({ artist }: { artist: Artist }) {
+type ArtistCardProps = { artist: Artist };
+
+export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
     <Box>
       <Link
         href={`/artist/${artist.id}`}
         style={{ color: "inherit", textDecoration: "none" }}
       >
+        {/* Artist cover */}
         <Paper
           sx={{
             position: "relative",
@@ -20,6 +23,7 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
             overflow: "hidden",
           }}
         >
+          {/* Image */}
           <Image
             src={artist.picture_big}
             alt={artist.name}
@@ -28,6 +32,7 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
             fill
             style={{ objectFit: "cover" }}
           />
+          {/* Gradient overlay - to make fans count more legible */}
           <Box
             sx={{
               position: "absolute",
@@ -73,6 +78,7 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
             </Tooltip>
           </Box>
         </Paper>
+        {/* Artist name */}
         <Typography
           sx={{
             fontSize: "0.9rem",

@@ -2,13 +2,14 @@ import Image from "next/image";
 import { Box, Paper, Typography } from "@mui/material";
 import { Album } from "@/lib/definitions";
 
-export default function AlbumCard({
-  album,
-}: {
+type AlbumCardProps = {
   album: Pick<Album, "title" | "release_date" | "cover_big">;
-}) {
+};
+
+export default function AlbumCard({ album }: AlbumCardProps) {
   return (
     <Box>
+      {/* Album cover */}
       <Paper
         sx={{
           position: "relative",
@@ -27,6 +28,7 @@ export default function AlbumCard({
           style={{ objectFit: "cover" }}
         />
       </Paper>
+      {/* Album title */}
       <Typography
         sx={{
           fontSize: "0.9rem",
@@ -40,6 +42,7 @@ export default function AlbumCard({
       >
         {album.title}
       </Typography>
+      {/* Album release year */}
       <Typography variant="caption" lineHeight={1}>
         {new Date(album.release_date).getFullYear()}
       </Typography>

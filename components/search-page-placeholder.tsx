@@ -1,10 +1,12 @@
 import { Box, Skeleton } from "@mui/material";
 
+type SearchPagePlaceholderProps = {
+  placeholderText: string;
+};
+
 export default function SearchPagePlaceholder({
   placeholderText,
-}: {
-  placeholderText: string;
-}) {
+}: SearchPagePlaceholderProps) {
   return (
     <Box
       sx={{
