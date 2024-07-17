@@ -99,7 +99,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                       <ListItemButton
                         LinkComponent={Link}
                         href={item.href}
-                        selected={pathname === item.href}
+                        selected={
+                          item.href !== "/"
+                            ? pathname === item.href
+                            : pathname === item.href || pathname.startsWith("/artist")
+                        }
                         dense
                         sx={{ mx: -2, borderRadius: 2 }}
                       >
