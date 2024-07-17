@@ -35,9 +35,11 @@ export default async function ArtistPage({ params }: { params: { id: string } })
         <Typography color="text.primary">{artist.name}</Typography>
       </Breadcrumbs>
 
-      <Box sx={{ display: "flex", gap: 4 }}>
+      {/* Top of artist page */}
+      <Box sx={{ display: "flex", alignItems: "start", gap: 4 }}>
         <Paper
           sx={{
+            flex: "0 0 auto",
             position: "relative",
             aspectRatio: "1",
             borderRadius: 2,
@@ -55,8 +57,17 @@ export default async function ArtistPage({ params }: { params: { id: string } })
         <Box sx={{ flexGrow: 1, py: 3 }}>
           <Box sx={{ mb: 2 }}>
             <Typography
+              title={artist.name}
               variant="h3"
-              sx={{ fontWeight: 700, fontSize: "4rem", lineHeight: 1 }}
+              sx={{
+                fontWeight: 700,
+                fontSize: "4rem",
+                lineHeight: 1,
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: "1",
+              }}
             >
               {artist.name}
             </Typography>
@@ -109,8 +120,17 @@ export default async function ArtistPage({ params }: { params: { id: string } })
                   style={{ borderRadius: "4px" }}
                 />
                 <Box>
-                  <Typography lineHeight={1}>{track.title}</Typography>
-                  <Typography variant="caption" lineHeight={1}>
+                  <Typography>{track.title}</Typography>
+                  <Typography
+                    variant="caption"
+                    lineHeight={1}
+                    sx={{
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: "1",
+                    }}
+                  >
                     {track.album.title}
                   </Typography>
                 </Box>
@@ -120,6 +140,7 @@ export default async function ArtistPage({ params }: { params: { id: string } })
         </Box>
       </Box>
 
+      {/* Albums */}
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6">Albums</Typography>
         <Divider sx={{ mb: 3 }} />
