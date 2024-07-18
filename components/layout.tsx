@@ -33,6 +33,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <AppBar
         position="fixed"
         color="inherit"
+        elevation={0}
         variant="outlined"
         sx={{ zIndex: "calc(var(--mui-zIndex-drawer) + 1)" }}
       >

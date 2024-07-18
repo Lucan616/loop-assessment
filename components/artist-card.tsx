@@ -4,7 +4,7 @@ import { Box, Paper, Tooltip, Typography } from "@mui/material";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import { Artist } from "@/lib/definitions";
 
-type ArtistCardProps = { artist: Artist };
+type ArtistCardProps = { artist: Pick<Artist, "id" | "name" | "nb_fan" | "picture_big"> };
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
