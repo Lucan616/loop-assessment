@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function RootErrorPage({
+export default function ArtistErrorPage({
   error,
   reset,
 }: {

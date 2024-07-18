@@ -22,9 +22,50 @@ export default async function Home({
   };
 }) {
   const query = searchParams?.query || "";
-  const { data: artists = [], error = undefined } = query
-    ? await searchMusic(query, "artist")
-    : {};
+  const searchResult = query ? await searchMusic(query, "artist") : null;
+  let pageContent: JSX.Element;
+
+  // Define page content
+  if (searchResult && "data" in searchResult) {
+    const artists = searchResult.data;
+
+    if (artists.length > 0) {
+      // Display artists
+      pageContent = (
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            gridAutoRows: "minmax(0, 1fr)",
+            gap: 2.5,
+          }}
+        >
+          {artists.map((artist) => (
+            <ArtistCard key={artist.id} artist={artist} />
+          ))}
+        </Box>
+      );
+    } else {
+      // When no artists match search query
+      pageContent = (
+        <Typography
+          sx={{
+            color: "GrayText",
+            fontSize: "1.75rem",
+            fontWeight: "500",
+            letterSpacing: "1px",
+          }}
+        >
+          No artists found
+        </Typography>
+      );
+    }
+  } else if (searchResult && "error" in searchResult && searchResult.error.code !== 501) {
+    throw searchResult.error;
+  } else {
+    // Search placeholder - When there is no query given
+    pageContent = <SearchPagePlaceholder placeholderText="Search for artists" />;
+  }
 
   return (
     <Container sx={{ py: 3 }}>
@@ -50,7 +91,7 @@ export default async function Home({
             <ToggleButton value="grid" aria-label="grid view">
               <GridViewRoundedIcon />
             </ToggleButton>
-            <ToggleButton value="list" aria-label="list view">
+            <ToggleButton value="list" aria-label="list view" disabled>
               <TableRowsRoundedIcon />
             </ToggleButton>
           </ToggleButtonGroup>
@@ -58,33 +99,7 @@ export default async function Home({
       </Box>
       <Divider sx={{ mb: 3 }} />
       <Suspense key={query} fallback={<>loading...</>}>
-        {!query ? (
-          <SearchPagePlaceholder placeholderText="Search for artists" />
-        ) : artists.length > 0 ? (
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-              gridAutoRows: "minmax(0, 1fr)",
-              gap: 2.5,
-            }}
-          >
-            {artists.map((artist) => (
-              <ArtistCard key={artist.id} artist={artist} />
-            ))}
-          </Box>
-        ) : (
-          <Typography
-            sx={{
-              color: "GrayText",
-              fontSize: "1.75rem",
-              fontWeight: "500",
-              letterSpacing: "1px",
-            }}
-          >
-            No artists found
-          </Typography>
-        )}
+        {pageContent}
       </Suspense>
     </Container>
   );

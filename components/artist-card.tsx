@@ -8,7 +8,14 @@ type ArtistCardProps = { artist: Artist };
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
-    <Box>
+    <Box
+      sx={{
+        transition: "transform 0.3s",
+        "&:hover": {
+          transform: "scale(1.05)",
+        },
+      }}
+    >
       <Link
         href={`/artist/${artist.id}`}
         style={{ color: "inherit", textDecoration: "none" }}

@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
   Box,
   Breadcrumbs,
@@ -17,8 +18,14 @@ import AlbumCard from "@/components/album-card";
 
 export default async function ArtistPage({ params }: { params: { id: string } }) {
   const artist = await getArtist(params.id);
-  const { data: tracks } = await getArtistTopTracks(params.id, { limit: 6 });
-  const { data: albums } = await getArtistAlbums(params.id);
+  const tracksResult = await getArtistTopTracks(params.id, { limit: 6 });
+  const albumsResult = await getArtistAlbums(params.id);
+
+  if ("error" in artist && artist.error.code === 800) {
+    notFound();
+  } else if ("error" in artist || "error" in tracksResult || "error" in albumsResult) {
+    throw new Error("Failed to load artist data.");
+  }
 
   return (
     <Container sx={{ py: 2.5 }}>
@@ -37,6 +44,7 @@ export default async function ArtistPage({ params }: { params: { id: string } })
 
       {/* Top of artist page */}
       <Box sx={{ display: "flex", alignItems: "start", gap: 4 }}>
+        {/* Artist cover */}
         <Paper
           sx={{
             flex: "0 0 auto",
@@ -56,6 +64,7 @@ export default async function ArtistPage({ params }: { params: { id: string } })
         </Paper>
         <Box sx={{ flexGrow: 1, py: 3 }}>
           <Box sx={{ mb: 2 }}>
+            {/* Artist name */}
             <Typography
               title={artist.name}
               variant="h3"
@@ -71,6 +80,7 @@ export default async function ArtistPage({ params }: { params: { id: string } })
             >
               {artist.name}
             </Typography>
+            {/* Fans count */}
             <Tooltip
               title="Fans count"
               placement="right"
@@ -94,13 +104,14 @@ export default async function ArtistPage({ params }: { params: { id: string } })
               </Typography>
             </Tooltip>
           </Box>
+          {/* Top songs */}
           <Typography variant="h6" gutterBottom>
             Top Songs
           </Typography>
           <Box
             sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", columnGap: 4 }}
           >
-            {tracks.map((track) => (
+            {tracksResult.data.map((track) => (
               <Box
                 key={track.id}
                 sx={{
@@ -120,11 +131,24 @@ export default async function ArtistPage({ params }: { params: { id: string } })
                   style={{ borderRadius: "4px" }}
                 />
                 <Box>
-                  <Typography>{track.title}</Typography>
                   <Typography
-                    variant="caption"
-                    lineHeight={1}
+                    title={track.title}
+                    gutterBottom
                     sx={{
+                      lineHeight: 1,
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: "1",
+                    }}
+                  >
+                    {track.title}
+                  </Typography>
+                  <Typography
+                    title={track.album.title}
+                    variant="caption"
+                    sx={{
+                      lineHeight: 1,
                       overflow: "hidden",
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
@@ -152,7 +176,8 @@ export default async function ArtistPage({ params }: { params: { id: string } })
             gap: 2.5,
           }}
         >
-          {albums
+          {albumsResult.data
+            // Sort albums by release data from latest to oldest
             .sort(
               (a, b) =>
                 new Date(b.release_date).getTime() - new Date(a.release_date).getTime()

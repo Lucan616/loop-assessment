@@ -8,7 +8,14 @@ type AlbumCardProps = {
 
 export default function AlbumCard({ album }: AlbumCardProps) {
   return (
-    <Box>
+    <Box
+    // sx={{
+    //   transition: "transform 0.3s",
+    //   "&:hover": {
+    //     transform: "scale(1.05)",
+    //   },
+    // }}
+    >
       {/* Album cover */}
       <Paper
         sx={{

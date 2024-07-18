@@ -3,17 +3,11 @@ import type {
   Artist,
   ArtistAlbum,
   ArtistTrack,
-  DeezerError,
+  DeezerErrorResponse,
+  DeezerListResponse,
 } from "@/lib/definitions";
 
 const DEEZER_API_URL = "https://api.deezer.com";
-
-type DeezerListResponse<T> = {
-  data: T[];
-  total: number;
-  next?: string;
-  prev?: string;
-};
 
 type AdvancedSearchOptions =
   | "album"
@@ -24,22 +18,14 @@ type AdvancedSearchOptions =
   | "track"
   | "user";
 
-type SearchDataType<T> = T extends "artist"
-  ? Artist
-  : T extends "album"
-  ? Album
-  : unknown;
+type SearchType<T> = T extends "artist" ? Artist : T extends "album" ? Album : unknown;
 
-type SearchMusicReturns<T> = {
-  data?: SearchDataType<T>[];
-  total?: number;
-  error?: DeezerError;
-};
+type SearchResponse<T> = DeezerListResponse<T> | DeezerErrorResponse;
 
 export async function searchMusic<T extends AdvancedSearchOptions>(
   query: string,
   connection?: T
-): Promise<SearchMusicReturns<T>> {
+): Promise<SearchResponse<SearchType<T>>> {
   const searchParams = new URLSearchParams({ q: query });
   const endpoint = `/search${connection ? `/${connection}` : ""}?${searchParams}`;
   const response = await fetch(`${DEEZER_API_URL}${endpoint}`);
@@ -55,7 +41,7 @@ export async function searchMusic<T extends AdvancedSearchOptions>(
 /**
  * @param id Artist ID
  */
-export async function getArtist(id: string): Promise<Artist> {
+export async function getArtist(id: string): Promise<Artist | DeezerErrorResponse> {
   const response = await fetch(`${DEEZER_API_URL}/artist/${id}`);
 
   if (!response.ok) {
@@ -71,7 +57,7 @@ export async function getArtist(id: string): Promise<Artist> {
  */
 export async function getArtistAlbums(
   id: string
-): Promise<DeezerListResponse<ArtistAlbum>> {
+): Promise<DeezerListResponse<ArtistAlbum> | DeezerErrorResponse> {
   const response = await fetch(`${DEEZER_API_URL}/artist/${id}/albums`);
 
   if (!response.ok) {
@@ -88,7 +74,7 @@ export async function getArtistAlbums(
 export async function getArtistTopTracks(
   id: string,
   options?: { limit?: number }
-): Promise<DeezerListResponse<ArtistTrack>> {
+): Promise<DeezerListResponse<ArtistTrack> | DeezerErrorResponse> {
   const searchParams = options
     ? new URLSearchParams({
         ...(options.limit && { limit: options.limit.toString() }),

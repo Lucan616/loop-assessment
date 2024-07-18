@@ -50,10 +50,19 @@ export type DeezerAPIErrors =
       code: 901;
     };
 
-export type DeezerError = {
-  type: string;
-  message: string;
-  code: number;
+export type DeezerErrorResponse = {
+  error: {
+    type: string;
+    message: string;
+    code: number;
+  };
+};
+
+export type DeezerListResponse<T> = {
+  data: T[];
+  total?: number;
+  prev?: string;
+  next?: string;
 };
 
 export type Album = {
