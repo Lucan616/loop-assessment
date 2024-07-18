@@ -3,7 +3,6 @@ import { AppBar, Box, Divider, Drawer, Toolbar, Typography } from "@mui/material
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import AlbumIcon from "@mui/icons-material/Album";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
-import LoopLogo from "@/app/loop-logo.svg";
 import Nav from "@/components/nav";
 
 const DRAWER_WIDTH = 240;
@@ -80,7 +79,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             pb: 1,
           }}
         >
-          <Image src={LoopLogo} alt="Loop" height={35} priority />
+          <Image src="./loop.svg" alt="Loop Logo" height={35} width={142} priority />
           <Divider sx={{ width: "100%", mt: 1 }} />
           <Typography
             variant="caption"
