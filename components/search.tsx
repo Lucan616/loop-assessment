@@ -43,6 +43,7 @@ export default function Search({ placeholder }: SearchProps) {
         placeholder={placeholder || "Search..."}
         defaultValue={searchParams.get("query")?.toString()}
         onChange={(event) => handleSearch(event.target.value)}
+        autoFocus
         sx={{ flex: 1, ml: 1 }}
       />
     </Paper>

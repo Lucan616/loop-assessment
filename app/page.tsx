@@ -1,8 +1,8 @@
+import { Suspense } from "react";
 import {
   Box,
   Container,
   Divider,
-  Skeleton,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -57,22 +57,35 @@ export default async function Home({
         </Box>
       </Box>
       <Divider sx={{ mb: 3 }} />
-      {!query ? (
-        <SearchPagePlaceholder placeholderText="Search for artists" />
-      ) : (
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gridAutoRows: "minmax(0, 1fr)",
-            gap: 2.5,
-          }}
-        >
-          {artists.map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
-          ))}
-        </Box>
-      )}
+      <Suspense key={query} fallback={<>loading...</>}>
+        {!query ? (
+          <SearchPagePlaceholder placeholderText="Search for artists" />
+        ) : artists.length > 0 ? (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gridAutoRows: "minmax(0, 1fr)",
+              gap: 2.5,
+            }}
+          >
+            {artists.map((artist) => (
+              <ArtistCard key={artist.id} artist={artist} />
+            ))}
+          </Box>
+        ) : (
+          <Typography
+            sx={{
+              color: "GrayText",
+              fontSize: "1.75rem",
+              fontWeight: "500",
+              letterSpacing: "1px",
+            }}
+          >
+            No artists found
+          </Typography>
+        )}
+      </Suspense>
     </Container>
   );
 }

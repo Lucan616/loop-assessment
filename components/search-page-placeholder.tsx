@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 
 type SearchPagePlaceholderProps = {
   placeholderText: string;
@@ -22,7 +22,15 @@ export default function SearchPagePlaceholder({
       {Array(15)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} variant="rounded" width="100%" height="100%" />
+          <Box
+            key={index}
+            sx={{
+              backgroundColor: "#f1f5f9",
+              width: "100%",
+              height: "100%",
+              borderRadius: 2,
+            }}
+          />
         ))}
       <Box
         sx={{
@@ -38,7 +46,16 @@ export default function SearchPagePlaceholder({
             "radial-gradient(circle, rgba(255,255,255,1) 5%, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 60%, rgba(255,255,255,1) 90%)",
         }}
       >
-        {placeholderText}
+        <Typography
+          sx={{
+            color: "GrayText",
+            fontSize: "1.75rem",
+            fontWeight: "500",
+            letterSpacing: "1px",
+          }}
+        >
+          {placeholderText}
+        </Typography>
       </Box>
     </Box>
   );
