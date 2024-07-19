@@ -20,7 +20,7 @@ export default function AlbumCard({ album }: AlbumCardProps) {
       <Paper
         sx={{
           position: "relative",
-          aspectRatio: "1/1",
+          aspectRatio: "1",
           mb: 1,
           borderRadius: 2,
           overflow: "hidden",

@@ -18,6 +18,7 @@ type AdvancedSearchOptions =
   | "track"
   | "user";
 
+// TODO: Add more types for rest of search options
 type SearchType<T> = T extends "artist" ? Artist : T extends "album" ? Album : unknown;
 
 type SearchResponse<T> = DeezerListResponse<T> | DeezerErrorResponse;
