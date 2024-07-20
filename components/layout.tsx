@@ -80,7 +80,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             pb: 1,
           }}
         >
-          <Image src="/loop.svg" alt="Loop Logo" height={35} width={142} priority />
+          <img src="/loop.svg" alt="Loop Logo" height={35} width={142} />
+          {/* ⬇️ Removed - Vercel image optimization limit reached */}
+          {/* <Image src="/loop.svg" alt="Loop Logo" height={35} width={142} priority /> */}
           <Divider sx={{ width: "100%", mt: 1 }} />
           <Typography
             variant="caption"
