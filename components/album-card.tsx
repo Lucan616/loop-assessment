@@ -3,7 +3,10 @@ import { Box, Paper, Typography } from "@mui/material";
 import { Album } from "@/lib/definitions";
 
 type AlbumCardProps = {
-  album: Pick<Album, "title" | "release_date" | "cover_big">;
+  album: Pick<
+    Album,
+    "title" | "release_date" | "cover_big" | "cover_medium" | "cover_small" | "cover"
+  >;
 };
 
 export default function AlbumCard({ album }: AlbumCardProps) {
@@ -26,14 +29,16 @@ export default function AlbumCard({ album }: AlbumCardProps) {
           overflow: "hidden",
         }}
       >
-        <Image
+        <img src={album.cover_medium} alt={album.title} style={{ width: "100%" }} />
+        {/* ⬇️ Removed - Vercel image optimization limit reached */}
+        {/* <Image
           src={album.cover_big}
           alt={album.title}
           quality={100}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           style={{ objectFit: "cover" }}
-        />
+        /> */}
       </Paper>
       {/* Album title */}
       <Typography

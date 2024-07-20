@@ -50,17 +50,21 @@ export default async function ArtistPage({ params }: { params: { id: string } })
             flex: "0 0 auto",
             position: "relative",
             aspectRatio: "1",
+            width: 400,
             borderRadius: 2,
             overflow: "hidden",
           }}
         >
-          <Image
+          <img src={artist.picture_big} alt={artist.name} style={{ width: "100%" }} />
+          {/* ⬇️ Removed - Vercel image optimization limit reached */}
+          {/* <Image
             src={artist.picture_big}
             alt={artist.name}
             quality={100}
             width={400}
             height={400}
-          />
+            priority
+          /> */}
         </Paper>
         <Box sx={{ flexGrow: 1, py: 3 }}>
           <Box sx={{ mb: 2 }}>
@@ -123,13 +127,19 @@ export default async function ArtistPage({ params }: { params: { id: string } })
                   p: 1,
                 }}
               >
-                <Image
+                <img
+                  src={track.album.cover_small}
+                  alt={track.album.title}
+                  style={{ width: 50, height: 50, borderRadius: 4 }}
+                />
+                {/* ⬇️ Removed - Vercel image optimization limit reached */}
+                {/* <Image
                   src={track.album.cover_small}
                   alt={track.album.title}
                   width={50}
                   height={50}
                   style={{ borderRadius: "4px" }}
-                />
+                /> */}
                 <Box>
                   <Typography
                     title={track.title}

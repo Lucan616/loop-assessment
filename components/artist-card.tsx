@@ -4,7 +4,18 @@ import { Box, Paper, Tooltip, Typography } from "@mui/material";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import { Artist } from "@/lib/definitions";
 
-type ArtistCardProps = { artist: Pick<Artist, "id" | "name" | "nb_fan" | "picture_big"> };
+type ArtistCardProps = {
+  artist: Pick<
+    Artist,
+    | "id"
+    | "name"
+    | "nb_fan"
+    | "picture_big"
+    | "picture_small"
+    | "picture"
+    | "picture_medium"
+  >;
+};
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
@@ -31,7 +42,9 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
           }}
         >
           {/* Image */}
-          <Image
+          <img src={artist.picture_medium} alt={artist.name} style={{ width: "100%" }} />
+          {/* ⬇️ Removed - Vercel image optimization limit reached */}
+          {/* <Image
             src={artist.picture_big}
             alt={artist.name}
             quality={100}
@@ -39,7 +52,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
             fill
             placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
             style={{ objectFit: "cover" }}
-          />
+          /> */}
           {/* Gradient overlay - to make fans count more legible */}
           <Box
             sx={{
